@@ -1,8 +1,8 @@
 "use client";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { useTRPC } from "@/trpc/client";
+import { toast } from "sonner";
 import { LogoutButton } from "./logout";
 import { Button } from "@/components/ui/button";
 
@@ -16,7 +16,10 @@ const Page = () => {
   const testAi = useMutation(trpc.testAi.mutationOptions({
     onSuccess: () => {
       toast.success("AI Job queued")
-    }
+    },
+    // onError: () => {
+    //   toast.error("Something went wrong");
+    // }
   }));
 
   const create = useMutation(trpc.createWorkflow.mutationOptions({
