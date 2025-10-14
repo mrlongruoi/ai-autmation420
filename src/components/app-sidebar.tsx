@@ -1,5 +1,10 @@
 "use client";
 
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
+import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscription";
 import {
     CreditCardIcon,
     FolderOpenIcon,
@@ -8,9 +13,6 @@ import {
     LogOutIcon,
     StarIcon
 } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
 import {
     Sidebar,
     SidebarContent,
@@ -22,7 +24,6 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { authClient } from "@/lib/auth-client";
 
 const menuItems = [
     {
@@ -39,7 +40,7 @@ const menuItems = [
                 url: "/credentials",
             },
             {
-                title: "Thi hành",
+                title: "Nút thi hành",
                 icon: HistoryIcon,
                 url: "/executions",
             },
@@ -50,6 +51,7 @@ const menuItems = [
 export const AppSidebar = () => {
     const router = useRouter();
     const pathname = usePathname();
+    const { hasActiveSubscription, isLoading } = useHasActiveSubscription();
 
     return (
         <Sidebar collapsible="icon">
@@ -112,16 +114,18 @@ export const AppSidebar = () => {
                         </SidebarMenuButton>
                     </SidebarMenuItem>
 
-                    <SidebarMenuItem>
-                        <SidebarMenuButton
-                            tooltip="Billing Portal"
-                            className="gap-x-4 h-10 px-4"
-                            onClick={() => { }}
-                        >
-                            <CreditCardIcon className="h-4 w-4" />
-                            <span>Cổng thanh toán</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
+                    {!hasActiveSubscription && !isLoading && (
+                        <SidebarMenuItem>
+                            <SidebarMenuButton
+                                tooltip="Billing Portal"
+                                className="gap-x-4 h-10 px-4"
+                                onClick={() => authClient.checkout({ slug: "pro" })}
+                            >
+                                <CreditCardIcon className="h-4 w-4" />
+                                <span>Cổng thanh toán</span>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    )}
 
                     <SidebarMenuItem>
                         <SidebarMenuButton
