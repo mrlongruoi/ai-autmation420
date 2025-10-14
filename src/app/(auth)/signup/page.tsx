@@ -6,7 +6,7 @@ const Page = async () => {
 
   return (
     <div>
-      <RegisterForm/>
+      <RegisterForm />
     </div>
   )
 }
