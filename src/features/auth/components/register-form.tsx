@@ -23,6 +23,7 @@ import {
     FormMessage,
     FormField,
 } from "@/components/ui/form";
+import Image from "next/image";
 
 
 const registerSchema = z.object({
@@ -93,6 +94,12 @@ export function RegisterForm() {
                                         type="button"
                                         disabled={isPending}
                                     >
+                                        <Image
+                                            alt="Github"
+                                            src="/logos/github.svg"
+                                            width={20}
+                                            height={20}
+                                        />
                                         Tiếp tục với Github
                                     </Button>
 
@@ -102,6 +109,12 @@ export function RegisterForm() {
                                         type="button"
                                         disabled={isPending}
                                     >
+                                        <Image
+                                            alt="Google"
+                                            src="/logos/google.svg"
+                                            width={20}
+                                            height={20}
+                                        />
                                         Tiếp tục với Google
                                     </Button>
                                 </div>
