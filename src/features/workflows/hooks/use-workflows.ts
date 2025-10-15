@@ -5,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useTRPC } from "@/trpc/client";
+import { useWorkflowsParams } from "./use-workflows-params";
 
 /**
  * Hook to fetch all workflows using suspense
@@ -12,7 +13,9 @@ import { useTRPC } from "@/trpc/client";
 export const useSuspenseWorkflows = () => {
   const trpc = useTRPC();
 
-  return useSuspenseQuery(trpc.workflows.getMany.queryOptions());
+  const [params] = useWorkflowsParams();
+
+  return useSuspenseQuery(trpc.workflows.getMany.queryOptions(params));
 };
 /**
  * Hook to create a new workflow
@@ -25,7 +28,7 @@ export const useCreateWorkflow = () => {
     trpc.workflows.create.mutationOptions({
       onSuccess: (data) => {
         toast.success(`Quy trình tự động "${data.name}" đang tạo`);
-        queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions());
+        queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions({}));
       },
       onError: (error) => {
         toast.error(`Không tạo được quy trình tự động hóa: ${error.message}`);
