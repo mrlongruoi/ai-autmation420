@@ -49,14 +49,23 @@ function BreadcrumbLink({
   )
 }
 
-function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
+function BreadcrumbPage({
+  className,
+  href = "#",
+  onClick,
+  ...props
+}: React.ComponentProps<"a"> & { href?: string }) {
   return (
-    <span
+    <a
       data-slot="breadcrumb-page"
-      role="link"
-      aria-disabled="true"
+      href={href}
       aria-current="page"
       className={cn("text-foreground font-normal", className)}
+      onClick={(e) => {
+        // prevent navigation for placeholder hrefs if needed
+        if (href === "#" || href === "") e.preventDefault()
+        onClick?.(e)
+      }}
       {...props}
     />
   )
