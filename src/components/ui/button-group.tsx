@@ -25,15 +25,17 @@ function ButtonGroup({
   className,
   orientation,
   ...props
-}: React.ComponentProps<"div"> & VariantProps<typeof buttonGroupVariants>) {
+}: React.ComponentProps<"fieldset"> & VariantProps<typeof buttonGroupVariants>) {
   return (
-    <div
-      role="group"
+    <fieldset
       data-slot="button-group"
       data-orientation={orientation}
       className={cn(buttonGroupVariants({ orientation }), className)}
       {...props}
-    />
+    >
+      <legend className="sr-only">Button group</legend>
+      {/* children will be rendered via {...props} if passed as children */}
+    </fieldset>
   )
 }
 
