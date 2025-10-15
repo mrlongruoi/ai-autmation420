@@ -57,3 +57,35 @@ export const useRemoveWorkflow = () => {
     })
   );
 };
+
+/**
+ * Hook to update a workflow name
+ */
+export const useSuspenseWorkflow = (id: string) => {
+  const trpc = useTRPC();
+
+  return useSuspenseQuery(trpc.workflows.getOne.queryOptions({ id }));
+};
+
+/**
+ * Hook to create a new workflow
+ */
+export const useUpdateWorkflowName = () => {
+  const queryClient = useQueryClient();
+  const trpc = useTRPC();
+
+  return useMutation(
+    trpc.workflows.updateName.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`Quy trình tự động "${data.name}" đã cập nhật`);
+        queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions({}));
+        queryClient.invalidateQueries(
+          trpc.workflows.getOne.queryFilter({ id: data.id })
+        );
+      },
+      onError: (error) => {
+        toast.error(`Không cập nhật được quy trình tự động hóa: ${error.message}`);
+      },
+    })
+  );
+};
