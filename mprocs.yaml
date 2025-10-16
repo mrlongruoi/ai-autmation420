@@ -2,5 +2,8 @@ procs:
   inngest:
     cmd: ["npm.cmd", "run", "inngest:dev"]
 
+  prisma:
+    cmd: ["npm.cmd", "run", "db:studio"]  
+    
   next:
     cmd: ["npm.cmd", "run", "dev"]
