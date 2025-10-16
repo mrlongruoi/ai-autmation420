@@ -1,6 +1,6 @@
+/** biome-ignore-all assist/source/organizeImports: <explanation> */
 "use client";
 
-import { useState, useCallback } from 'react';
 import {
     ReactFlow,
     applyNodeChanges,
@@ -16,11 +16,14 @@ import {
     MiniMap,
     Panel
 } from '@xyflow/react';
-import '@xyflow/react/dist/style.css';
-import { ErrorView, LoadingView } from "@/components/entity-components";
+import { useSetAtom } from 'jotai';
+import { useState, useCallback } from 'react';
 import { useSuspenseWorkflow } from "@/features/workflows/hooks/use-workflows";
 import { nodeComponents } from '@/config/node-components';
 import { AddNodeButton } from './add-node-button';
+import { editorAtom } from '../store/atoms';
+import { ErrorView, LoadingView } from "@/components/entity-components";
+import '@xyflow/react/dist/style.css';
 
 
 export const EditorLoading = () => {
@@ -35,6 +38,8 @@ export const EditorError = () => {
 
 export const Editor = ({ workflowId }: { workflowId: string }) => {
     const { data: workflow } = useSuspenseWorkflow(workflowId);
+
+    const setEditor = useSetAtom(editorAtom);
 
     const [nodes, setNodes] = useState<Node[]>(workflow.nodes);
 
@@ -64,7 +69,13 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 nodeTypes={nodeComponents}
+                onInit={setEditor}
                 fitView
+                snapGrid={[10, 10]}
+                snapToGrid
+                panOnScroll
+                panOnDrag={true}
+                selectionOnDrag
             // proOptions={{
             //     hideAttribution: true, // xoa logo reactflow
             // }}

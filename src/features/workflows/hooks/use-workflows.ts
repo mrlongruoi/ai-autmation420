@@ -84,7 +84,32 @@ export const useUpdateWorkflowName = () => {
         );
       },
       onError: (error) => {
-        toast.error(`Không cập nhật được quy trình tự động hóa: ${error.message}`);
+        toast.error(
+          `Không cập nhật được quy trình tự động hóa: ${error.message}`
+        );
+      },
+    })
+  );
+};
+
+/**
+ * Hook to update a workflow
+ */
+export const useUpdateWorkflow = () => {
+  const queryClient = useQueryClient();
+  const trpc = useTRPC();
+
+  return useMutation(
+    trpc.workflows.update.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`Quy trình tự động "${data.name}" đã lưu`);
+        queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions({}));
+        queryClient.invalidateQueries(
+          trpc.workflows.getOne.queryFilter({ id: data.id })
+        );
+      },
+      onError: (error) => {
+        toast.error(`Không lưu được quy trình tự động hóa: ${error.message}`);
       },
     })
   );
