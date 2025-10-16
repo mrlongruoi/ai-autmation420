@@ -1,13 +1,13 @@
 "use client";
 
 import { forwardRef, type ReactNode } from "react";
+import { BaseNode } from "./base-node";
 import {
   Handle,
   Position,
   type NodeProps,
 } from "@xyflow/react";
 
-import { BaseNode } from "./base-node";
 
 export type PlaceholderNodeProps = Partial<NodeProps> & {
   children?: ReactNode;
