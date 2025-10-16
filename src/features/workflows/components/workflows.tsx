@@ -21,7 +21,7 @@ export const WorkflowsSearch = () => {
         <EntitySearch
             value={searchValue}
             onChange={onSearchChange}
-            placeholder="Tìm kiếm quy trình công việc"
+            placeholder="Tìm kiếm quy trình"
         />
     )
 }
